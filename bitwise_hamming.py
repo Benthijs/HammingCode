@@ -21,15 +21,14 @@ def bitwise_controleer(vector):
         raise ValueError("The vector should be of dimension 7")
     vector_list = vector.mat[0] # list of elements in the vector
     # assign the elements of the hamming vector to variables
-    p_1,p_2,p_3 = vector_list[0], vector_list[1], vector_list[3]
+    p_1,p_2,p_4 = vector_list[0], vector_list[1], vector_list[3]
     d_1,d_2,d_3,d_4 = vector_list[2], vector_list[4], vector_list[5],vector_list[6]
-    print(vector_list)
     #check the parity bits
     if (d_1+d_2+d_4) % 2 != p_1:
         return False
     if (d_1+d_3+d_4) % 2 != p_2:
         return False
-    if (d_2+d_3+d_4) % 2 != p_3:
+    if (d_2+d_3+d_4) % 2 != p_4:
         return False
     return True
 
@@ -52,39 +51,37 @@ def bitwise_codeer(vector):
     # Calculate the parity bits
     p_1 = d_1 + d_2 + d_4
     p_2 = d_1 + d_3 + d_4
-    p_3 = d_2 + d_3 + d_4
-    hamming_vector = matrix([[p_1,p_2,d_1,p_3,d_2,d_3,d_4]])
-    return hamming_vector
+    p_4 = d_2 + d_3 + d_4
+    hamming_vector = matrix([[p_1,p_2,d_1,p_4,d_2,d_3,d_4]])
+    return hamming_vector.transpose()
 
 def bitwise_corrigeren(vector):
     """Returns a corrected hamming 7-vector
     Attributes:
         vector: a hamming 7-vector
     """
+    if(len(vector.mat)>1):
+        vector = vector.transpose()
     if bitwise_controleer(vector):
-        return vector
+        return vector.transpose()
     # check if changing a bit corrects the error
     vector_elementen = vector.mat[0]
     for i in range(7):
         nieuwe_elementen = vector_elementen.copy()
         nieuwe_elementen[i] += 1
         potentiele_vector = matrix([nieuwe_elementen])
-        print(nieuwe_elementen, 'boo')
         if bitwise_controleer(potentiele_vector):
-            return potentiele_vector
+            return potentiele_vector.transpose()
     raise ValueError("The given vector cannot be corrected")
 
 def bitwise_decodeer(vector):
     """Returns a correct 4-vector
     Attributes:
         vector: a hamming 7-vector"""
+    if(len(vector.mat)>1):
+        vector=vector.transpose()
     vector = bitwise_corrigeren(vector)
-    elementen = vector.mat[0]
+    elementen = vector.transpose().mat[0]
     data_vector = matrix([[elementen[2], elementen[4], elementen[5],
                           elementen[6]]]).transpose()
     return data_vector
-
-c = matrix([[1,1,0,1]])
-alpha = bitwise_codeer(c)
-alpha=alpha.update(1,1, 0)
-print(bitwise_decodeer(alpha))

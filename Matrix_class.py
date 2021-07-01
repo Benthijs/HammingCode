@@ -18,7 +18,9 @@ class matrix:
         self.dim = (len(lst), len(lst[0]))
         self.rows = [lst[i][:] for i in range(self.dim[0])]
         self.columns = [[lst[i][j] for i in range(self.dim[0])] for j in range(self.dim[1])]
-        
+     
+    def __eq__(self, other):
+        return self.mat == other.mat
 
     def get(self, i, j):
         """For a matrix A returns the element on the ith row jth column"""
@@ -52,7 +54,6 @@ class matrix:
         if len(list1) == len(list2):
             return sum([list1[i]*list2[i] for i in range(len(list1))]) % 2
 
-    # TODO handle errors, wrong types/incompatible sizes  
     def __mul__(self, other):
         """Returns the product of two matrices"""
         # Gaurdian code
@@ -71,16 +72,21 @@ class matrix:
     def __add__(self, other):
         """Returns the sum of two matrices"""
         #gaurdian code
-        if not isinstance(other, matrix):
+        if(not isinstance(other, matrix)):
             raise TypeError("other is not of type matrix")
-        if self.dim != other.dim:
+        elif(self.dim != other.dim):
             raise ValueError("Matrices not of compatible dimensions")
-        # addition of two matrices
-        new_matrix = [[0 for i in range(len(self.rows[0]))] for j in range(len(self.columns[0]))]
-        print(new_matrix)
-        for i in range(len(other.rows)):
-            for j in range(len(other.columns)):
-                # addition in mod 2
-                new_matrix[i][j] = (self.get(i, j) + other.get(i, j)) % 2
-        return new_matrix
+        if self.dim[1] == 1:
+            new_matrix = [[0 for i in range(len(self.rows[0]))] for j in range(len(self.columns[0]))]
+            for i in range(len(self.rows)):
+                new_matrix[i][0] = (self.rows[i][0] + other.rows[i][0]) % 2
+            return matrix(new_matrix)
+        else:
+            # addition of two matrices
+            new_matrix = [[0 for i in range(len(self.rows[0]))] for j in range(len(self.columns[0]))]
+            for i in range(len(other.rows)):
+                for j in range(len(other.columns)):
+                    # addition in mod 2
+                    new_matrix[i][j] = (self.get(i, j) + other.get(i, j)) % 2
+            return matrix(new_matrix)
     
