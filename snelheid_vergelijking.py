@@ -3,7 +3,6 @@ We compare the runtime of the bitwise hamming implementation with the matrix
 version
 """
 import time
-import math
 import hamming
 import bitwise_hamming
 import hamming_unittests
@@ -41,6 +40,6 @@ def compare(number = 10000):
         bitwise_hamming_functions(vector)
     bitwise_time = time.time() - bitwise_time
     normalization = max([matrix_time, bitwise_time])
-    print(("Time of execution for: \n matrix hamming code tasks: {:.2%} \n" +
-           "bitwise hamming tasks: {:.2%}").format(matrix_time/normalization,
+    print(("Time of execution for: \n  Matrix hamming code tasks: {:.2%} \n" +
+           "  Bitwise hamming tasks: {:.2%}").format(matrix_time/normalization,
                                                    bitwise_time/normalization))

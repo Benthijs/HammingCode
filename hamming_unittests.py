@@ -88,7 +88,6 @@ class TestHammingMethods(unittest.TestCase):
         self.assertEqual(hamming.corrigeren(wrong_hamming_vector),
                          hamming_vector)
 
-
 class TestBitwiseHamming(unittest.TestCase):
     """Unittests for the bitwise_hamming.py functions"""
     def test_bitwise_codeer(self):

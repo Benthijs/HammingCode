@@ -60,7 +60,7 @@ def bitwise_corrigeren(vector):
     Attributes:
         vector: a hamming 7-vector
     """
-    if(len(vector.mat)>1):
+    if len(vector.mat) > 1:
         vector = vector.transpose()
     if bitwise_controleer(vector):
         return vector.transpose()
@@ -78,7 +78,7 @@ def bitwise_decodeer(vector):
     """Returns a correct 4-vector
     Attributes:
         vector: a hamming 7-vector"""
-    if(len(vector.mat)>1):
+    if len(vector.mat) > 1:
         vector=vector.transpose()
     vector = bitwise_corrigeren(vector)
     elementen = vector.transpose().mat[0]
